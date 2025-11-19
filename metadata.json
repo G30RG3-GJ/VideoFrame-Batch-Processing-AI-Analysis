@@ -1,0 +1,5 @@
+{
+  "name": "VideoFrame AI",
+  "description": "აპლიკაცია ვიდეოდან ფოტოების (კადრების) ამოსაღებად და Gemini AI-ით გასაანალიზებლად.",
+  "requestFramePermissions": []
+}
