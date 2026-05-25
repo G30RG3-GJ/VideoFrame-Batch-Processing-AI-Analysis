@@ -54,7 +54,7 @@ export const AnalysisModal: React.FC<AnalysisModalProps> = ({ frame, onClose, la
       question: "კითხვა AI-ს",
       analyzeBtn: "გააანალიზე კადრი",
       processing: "მუშავდება...",
-      responseTitle: "GEMINI-ის პასუხი:",
+      responseTitle: "GEMINI RESPONSE:",
       source: "წყარო",
     },
     en: {
@@ -74,50 +74,56 @@ export const AnalysisModal: React.FC<AnalysisModalProps> = ({ frame, onClose, la
   const text = t[lang];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-      <div className="bg-slate-800 rounded-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden flex flex-col md:flex-row shadow-2xl border border-slate-700">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 transition-all duration-300 animate-fadeIn">
+      <div className="bg-slate-900/90 backdrop-blur-xl rounded-3xl max-w-5xl w-full max-h-[90vh] overflow-hidden flex flex-col md:flex-row shadow-2xl border border-slate-800/80">
         
         {/* Image Section */}
-        <div className="relative w-full md:w-2/3 bg-black flex items-center justify-center p-4">
+        <div className="relative w-full md:w-2/3 bg-black/40 flex items-center justify-center p-6 border-b md:border-b-0 md:border-r border-slate-800/80">
           <img 
             src={frame.dataUrl} 
             alt="Selected Frame" 
-            className="max-w-full max-h-[60vh] md:max-h-[80vh] object-contain rounded-md"
+            className="max-w-full max-h-[45vh] md:max-h-[75vh] object-contain rounded-2xl shadow-2xl"
           />
           <button 
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 bg-slate-900/50 hover:bg-slate-900/80 text-white rounded-full transition-colors"
+            className="absolute top-4 right-4 p-2.5 bg-slate-900/80 hover:bg-slate-800 text-white rounded-full border border-slate-800 shadow-lg transition-all hover:scale-105 active:scale-95"
           >
             <CloseIcon />
           </button>
         </div>
 
         {/* Controls & Analysis Section */}
-        <div className="w-full md:w-1/3 p-6 flex flex-col bg-slate-800 border-l border-slate-700 overflow-y-auto">
-          <h3 className="text-xl font-bold text-white mb-4">{text.details}</h3>
+        <div className="w-full md:w-1/3 p-6 flex flex-col bg-slate-900/20 overflow-y-auto max-h-[45vh] md:max-h-none">
+          <h3 className="text-xl font-extrabold text-white tracking-tight mb-4">{text.details}</h3>
           
-          <div className="mb-6 space-y-1">
-            <p className="text-slate-400 text-sm">{text.source}: <span className="text-white truncate block">{frame.sourceVideoName}</span></p>
-            <p className="text-slate-400 text-sm mb-2">{text.time}: <span className="text-white font-mono">{frame.timestamp.toFixed(2)} {text.sec}</span></p>
+          <div className="mb-6 space-y-3">
+            <div className="p-3 bg-slate-800/40 rounded-xl border border-slate-700/40 space-y-1">
+              <p className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">{text.source}</p>
+              <p className="text-white text-sm truncate font-medium">{frame.sourceVideoName}</p>
+            </div>
+            <div className="p-3 bg-slate-800/40 rounded-xl border border-slate-700/40 space-y-1">
+              <p className="text-slate-400 text-[10px] font-bold uppercase tracking-wider">{text.time}</p>
+              <p className="text-white text-sm font-mono font-bold">{frame.timestamp.toFixed(2)} {text.sec}</p>
+            </div>
             <button 
               onClick={downloadImage}
-              className="flex items-center gap-2 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg text-sm transition-all w-full justify-center"
+              className="flex items-center gap-2 px-4 py-3 bg-slate-800/80 hover:bg-slate-700 text-white rounded-xl text-sm font-semibold transition-all w-full justify-center border border-slate-700/60 shadow-md active:scale-95"
             >
               <DownloadIcon /> {text.download}
             </button>
           </div>
 
-          <hr className="border-slate-700 mb-6" />
+          <hr className="border-slate-800/80 mb-6" />
 
-          <div className="flex-1 flex flex-col">
-            <h4 className="text-lg font-semibold text-blue-400 flex items-center gap-2 mb-3">
+          <div className="flex-1 flex flex-col space-y-4">
+            <h4 className="text-md font-bold text-blue-400 flex items-center gap-2">
               <SparklesIcon /> {text.aiTitle}
             </h4>
             
-            <div className="space-y-3 mb-4">
-              <label className="block text-xs text-slate-400 uppercase tracking-wide font-semibold">{text.question}</label>
+            <div className="space-y-2">
+              <label className="block text-[10px] text-slate-400 uppercase tracking-wider font-bold">{text.question}</label>
               <textarea 
-                className="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none h-20"
+                className="w-full bg-slate-950/80 border border-slate-800 rounded-xl p-3 text-sm text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none h-20 transition-all placeholder-slate-750"
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
               />
@@ -126,7 +132,7 @@ export const AnalysisModal: React.FC<AnalysisModalProps> = ({ frame, onClose, la
             <button 
               onClick={handleAnalyze}
               disabled={loading}
-              className="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+              className="w-full py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 active:scale-95"
             >
               {loading ? (
                 <>
@@ -141,8 +147,8 @@ export const AnalysisModal: React.FC<AnalysisModalProps> = ({ frame, onClose, la
             </button>
 
             {analysis && (
-              <div className="mt-6 p-4 bg-slate-900/50 rounded-xl border border-slate-700 animate-fadeIn flex-1 overflow-y-auto min-h-[100px]">
-                <h5 className="text-xs text-slate-500 uppercase mb-2">{text.responseTitle}</h5>
+              <div className="mt-2 p-4 bg-slate-950/80 rounded-xl border border-slate-850 flex-1 overflow-y-auto min-h-[120px] transition-all">
+                <h5 className="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-2">{text.responseTitle}</h5>
                 <p className="text-slate-300 text-sm leading-relaxed whitespace-pre-wrap">{analysis}</p>
               </div>
             )}
